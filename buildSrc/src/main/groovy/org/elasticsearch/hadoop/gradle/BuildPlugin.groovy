@@ -106,8 +106,15 @@ class BuildPlugin implements Plugin<Project>  {
             // Hadoop versions
             project.rootProject.ext.hadoopClient = []
             project.rootProject.ext.hadoopDistro = project.hasProperty("distro") ? project.getProperty("distro") : "hadoopStable"
-
+            print ("DISTRYO " + project.rootProject.ext.hadoopDistro )
             switch (project.rootProject.ext.hadoopDistro) {
+                // Hadoop YARN/2.0.x
+                case "hadoop3":
+                    String version = project.hadoop32Version
+                    project.rootProject.ext.hadoopVersion = version
+                    project.rootProject.ext.hadoopClient = ["org.apache.hadoop:hadoop-client:$version"]
+                    println "Using Apache Hadoop on YARN 3- [$version]"
+                    break
                 // Hadoop YARN/2.0.x
                 case "hadoopYarn":
                     String version = project.hadoop2Version
